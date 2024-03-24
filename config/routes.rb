@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'pages/home'
+  get 'pages/restricted'
+  devise_for :users
   resources :claims
   resources :comments
   resources :paragraphs
