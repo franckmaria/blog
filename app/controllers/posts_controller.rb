@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show update destroy ]
-
+  before_action :authenticate_devise_api_token!, only: [:create]
   # GET /posts
   def index
     @posts = Post.all
@@ -15,7 +15,9 @@ class PostsController < ApplicationController
 
   # POST /posts
   def create
-    @post = Post.new(post_params)
+    devise_api_token = current_devise_api_token
+    @user =  User.find((devise_api_token.resource_owner.id).to_i)
+    @post = @user.posts.new(post_params)
 
     if @post.save
       render json: @post, status: :created, location: @post
@@ -46,6 +48,6 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:title)
+      params.require(:post).permit(:title, paragraphs: [])
     end
 end
