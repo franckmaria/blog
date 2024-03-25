@@ -1,5 +1,5 @@
 class DescriptionsController < ApplicationController
-  before_action :authenticate_devise_api_token!, only: [:create]
+  before_action :authenticate_devise_api_token!, only: [:create, :get_description]
   before_action :set_description, only: %i[ show update destroy ]
 
   # GET /descriptions
@@ -11,6 +11,13 @@ class DescriptionsController < ApplicationController
 
   # GET /descriptions/1
   def show
+    render json: @description
+  end
+
+  def get_description
+    devise_api_token = current_devise_api_token
+    @user =  User.find((devise_api_token.resource_owner.id).to_i)
+    @description = @user.descriptions.first
     render json: @description
   end
 
