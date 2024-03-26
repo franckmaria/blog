@@ -3,9 +3,9 @@ class PostsController < ApplicationController
   before_action :authenticate_devise_api_token!, only: [:create]
   # GET /posts
   def index
-    @posts = Post.all
+    @posts = Post.all.order(created_at: :desc)
 
-    render json: @posts
+    render json: @posts.to_json(include: [:user, :paragraphs])
   end
 
   # GET /posts/1
