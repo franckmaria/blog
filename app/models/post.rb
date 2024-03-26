@@ -1,6 +1,7 @@
 class Post < ApplicationRecord
   has_many :paragraphs
   belongs_to :user
+  has_many :comments
   validates :title, presence: true
 
   def five_recent
