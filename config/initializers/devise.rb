@@ -9,6 +9,12 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
+  config.api.configure do |api|
+    # Access Token
+    api.access_token.expires_in = 1.week
+    api.access_token.expires_in_infinite = ->(_resource_owner) { false }
+    api.access_token.generator = ->(_resource_owner) { Devise.friendly_token(60) }
+  end
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
