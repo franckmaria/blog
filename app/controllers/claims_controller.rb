@@ -1,5 +1,5 @@
 class ClaimsController < ApplicationController
-  before_action :set_claim, only: %i[ show update destroy ]
+  before_action :set_claim, only: %i[show update destroy]
 
   # GET /claims
   def index
@@ -39,13 +39,14 @@ class ClaimsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_claim
-      @claim = Claim.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def claim_params
-      params.require(:claim).permit(:how)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_claim
+    @claim = Claim.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def claim_params
+    params.require(:claim).permit(:how)
+  end
 end

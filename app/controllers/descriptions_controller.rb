@@ -1,6 +1,6 @@
 class DescriptionsController < ApplicationController
-  before_action :authenticate_devise_api_token!, only: [:create, :get_description]
-  before_action :set_description, only: %i[ show update destroy ]
+  before_action :authenticate_devise_api_token!, only: %i[create get_description]
+  before_action :set_description, only: %i[show update destroy]
 
   # GET /descriptions
   def index
@@ -16,7 +16,7 @@ class DescriptionsController < ApplicationController
 
   def get_description
     devise_api_token = current_devise_api_token
-    @user =  User.find((devise_api_token.resource_owner.id).to_i)
+    @user = User.find(devise_api_token.resource_owner.id.to_i)
     @description = @user.descriptions.first
     render json: @description
   end
@@ -24,7 +24,7 @@ class DescriptionsController < ApplicationController
   # POST /descriptions
   def create
     devise_api_token = current_devise_api_token
-    @description = User.find((devise_api_token.resource_owner.id).to_i).descriptions.new(description_params)
+    @description = User.find(devise_api_token.resource_owner.id.to_i).descriptions.new(description_params)
 
     if @description.save
       render json: @description, status: :created, location: @description
@@ -48,14 +48,14 @@ class DescriptionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_description
 
-      @description = Description.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_description
+    @description = Description.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def description_params
-      params.require(:description).permit(:name, :descriptionUser)
-    end
+  # Only allow a list of trusted parameters through.
+  def description_params
+    params.require(:description).permit(:name, :descriptionUser)
+  end
 end

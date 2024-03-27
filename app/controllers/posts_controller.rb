@@ -1,22 +1,22 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: %i[ show update destroy ]
+  before_action :set_post, only: %i[show update destroy]
   before_action :authenticate_devise_api_token!, only: [:create]
   # GET /posts
   def index
     @posts = Post.all.order(created_at: :desc)
 
-    render json: @posts.to_json(include: [:user, :paragraphs, :comments])
+    render json: @posts.to_json(include: %i[user paragraphs comments])
   end
 
   # GET /posts/1
   def show
-    render json: @post.to_json(include: [:user, :paragraphs, :comments])
+    render json: @post.to_json(include: %i[user paragraphs comments])
   end
 
   # POST /posts
   def create
     devise_api_token = current_devise_api_token
-    @user =  User.find((devise_api_token.resource_owner.id).to_i)
+    @user = User.find(devise_api_token.resource_owner.id.to_i)
     @post = @user.posts.new(post_params)
 
     if @post.save
@@ -41,13 +41,14 @@ class PostsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_post
-      @post = Post.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def post_params
-      params.require(:post).permit(:title, paragraphs: [])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_post
+    @post = Post.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def post_params
+    params.require(:post).permit(:title, paragraphs: [])
+  end
 end

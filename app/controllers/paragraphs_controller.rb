@@ -1,5 +1,5 @@
 class ParagraphsController < ApplicationController
-  before_action :set_paragraph, only: %i[ show update destroy ]
+  before_action :set_paragraph, only: %i[show update destroy]
   before_action :authenticate_devise_api_token!, only: [:create]
   # GET /paragraphs
   def index
@@ -16,7 +16,7 @@ class ParagraphsController < ApplicationController
   # POST /paragraphs
   def create
     devise_api_token = current_devise_api_token
-    @user =  User.find((devise_api_token.resource_owner.id).to_i)
+    @user = User.find(devise_api_token.resource_owner.id.to_i)
     @post = @user.posts.last
     @paragraph = @post.paragraphs.new(paragraph_params)
 
@@ -42,13 +42,14 @@ class ParagraphsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_paragraph
-      @paragraph = Paragraph.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def paragraph_params
-      params.require(:paragraph).permit(:title, :content)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_paragraph
+    @paragraph = Paragraph.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def paragraph_params
+    params.require(:paragraph).permit(:title, :content)
+  end
 end

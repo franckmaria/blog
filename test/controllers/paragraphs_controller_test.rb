@@ -1,35 +1,36 @@
-require "test_helper"
+require 'test_helper'
 
 class ParagraphsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @paragraph = paragraphs(:one)
   end
 
-  test "should get index" do
+  test 'should get index' do
     get paragraphs_url, as: :json
     assert_response :success
   end
 
-  test "should create paragraph" do
-    assert_difference("Paragraph.count") do
+  test 'should create paragraph' do
+    assert_difference('Paragraph.count') do
       post paragraphs_url, params: { paragraph: { content: @paragraph.content, title: @paragraph.title } }, as: :json
     end
 
     assert_response :created
   end
 
-  test "should show paragraph" do
+  test 'should show paragraph' do
     get paragraph_url(@paragraph), as: :json
     assert_response :success
   end
 
-  test "should update paragraph" do
-    patch paragraph_url(@paragraph), params: { paragraph: { content: @paragraph.content, title: @paragraph.title } }, as: :json
+  test 'should update paragraph' do
+    patch paragraph_url(@paragraph), params: { paragraph: { content: @paragraph.content, title: @paragraph.title } },
+                                     as: :json
     assert_response :success
   end
 
-  test "should destroy paragraph" do
-    assert_difference("Paragraph.count", -1) do
+  test 'should destroy paragraph' do
+    assert_difference('Paragraph.count', -1) do
       delete paragraph_url(@paragraph), as: :json
     end
 
