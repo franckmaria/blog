@@ -1,12 +1,12 @@
 databases:
-  - name: micronaut
-    databaseName: micronaut_qylg
-    user: micronaut_qylg_user
+  - name: franckblog
+    databaseName: franckblog
+    user: franckblog_user
     plan: free
 
 services:
   - type: web
-    name: expended
+    name: blog
     runtime: ruby
     plan: free
     buildCommand: "./bin/render-build.sh"
@@ -15,7 +15,7 @@ services:
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: micronaut
+          name: franckblog
           property: connectionString
       - key: RAILS_MASTER_KEY
         sync: false
