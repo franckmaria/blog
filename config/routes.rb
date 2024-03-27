@@ -1,4 +1,16 @@
 Rails.application.routes.draw do
+  resources :descriptions
+  get 'pages/home'
+  get 'pages/restricted'
+  devise_for :users
+  resources :claims
+  resources :comments
+  resources :paragraphs
+  resources :posts
+  resources :users
+  resources :descriptions, only: [:create]
+  get "/get_description", to:  "descriptions#get_description"
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
