@@ -89,6 +89,4 @@ test:
 #
 production:
   <<: *default
-  database: blog_production
-  username: blog
-  password: <%= ENV["ECOLE_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>
